@@ -1,4 +1,5 @@
-finalproject-harrisonde
-=======================
+#CSCI E-18 Final Project
+##### Harrison DeStefano 
 
-github repository for the final project
+	
+

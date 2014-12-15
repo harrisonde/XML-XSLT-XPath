@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
+<!-- 
+  Department.xsl
+      
+  Harrison DeStefano
+  williamdestefano@harvard.fas.edu
+
+  Build web application from logic and XML documents.
+  -->
+<map:components>
+  <map:serializers default="xhtml">
+    
+    <!-- 
+      Per W3C @ http://dev.w3.org/html5/html-author/
+      For compatibility with legacy producers of HTML — that is, software that outputs HTML documents — an alternative legacy compatibility DOCTYPE is available. This is recommended for use by systems that are unable to output the DOCTYPE given above. This limitation occurs in software that expects a DOCTYPE to include either a PUBLIC or SYSTEM identifier, and is unable to omit them. The canonical form of this DOCTYPE is as follows: 
+
+      The HTML5 legacy compatibility DOCTYPE declaration.
+      <!DOCTYPE html SYSTEM "about:legacy-compat">
+    -->
+    <map:serializer logger="sitemap.serializer.xml" mime-type="text/html" name="html5" pool-max="32" src="org.apache.cocoon.serialization.XMLSerializer">
+      <omit-xml-declaration>yes</omit-xml-declaration>
+      <method>xml</method>
+      <doctype-system>about:legacy-compat</doctype-system>
+      <encoding>UTF-8</encoding>
+      </map:serializer>
+    </map:serializers>
+</map:components>
+
+  <map:flow language="javascript"/> 
+    <!--  views are defined in map:views element, which is a child of map:sitemap (and occurs 
+    after map:components are defined). Views can be defined based upon "labels" or by "position"
+     ('first' or 'last'). You can label the various steps of the pipeline, or you can rely on 
+     the positions of "first" (content after map:generate) or "last" (content just prior to 
+     serialization). Call with "?cocoon-view=xslfo" 
+    -->
+    <map:views>
+       <map:view name="xsl-fo" from-label="xsl-fo">
+        <map:serialize type="xml" />
+      </map:view>
+    </map:views>
+    
+    <map:pipelines>
+      <map:component-configurations>
+        <!-- global vars -->
+        <global-variables>
+          <!-- A global var to help swap data source courses.xml or courses-small.xml -->
+          <model>courses.xml</model>
+        </global-variables>
+      </map:component-configurations>
+      <!-- help make sure you see new files generated all the time, boom. -->
+      <map:pipeline type="noncaching">
+        <!-- 
+          Put in map:match elements here
+        -->
+        
+        <!-- 
+          Redirects
+          Catch empty and redirect to root 
+        -->
+        <map:match pattern="">
+          <map:redirect-to uri="index.html"/>
+        </map:match>
+
+        <!-- 
+          Index or root of the application 
+        -->
+        <map:match pattern="index/*.html">
+          <map:generate src="data/{global:model}"/>
+           <map:transform src="xsl/desktop/index.xsl" type="xslt2">
+            <map:parameter name="url" value="{0}"/>
+           <map:parameter name="relpath" value="{baselink:SitemapBaseLink}"/>
+          </map:transform>
+          <map:serialize type="html5"/>
+        </map:match>
+        <map:match pattern="mobile/index/*.html">
+          <map:generate src="data/{global:model}"/>
+           <map:transform src="xsl/mobile/index.xsl" type="xslt2">
+            <map:parameter name="url" value="{0}"/>
+           <map:parameter name="relpath" value="{baselink:SitemapBaseLink}"/>
+          </map:transform>
+          <map:serialize type="html5"/>
+        </map:match>
+        <!-- 
+          Departments 
+        -->
+        <!-- 
+          HTML
+        -->
+        <map:match pattern="departments/*.html">
+          <map:generate src="data/{global:model}"/>
+           <map:transform src="xsl/desktop/departments.xsl" type="xslt2">
+            <map:parameter name="url" value="{0}"/>
+            <map:parameter name="q_str" value="{request:queryString}" />
+           <map:parameter name="relpath" value="{baselink:SitemapBaseLink}"/>
+          </map:transform>
+          <map:serialize type="html5"/>
+        </map:match>
+         <map:match pattern="mobile/departments/*.html">
+          <map:generate src="data/{global:model}"/>
+           <map:transform src="xsl/mobile/departments.xsl" type="xslt2">
+            <map:parameter name="url" value="{0}"/>
+            <map:parameter name="q_str" value="{request:queryString}" />
+           <map:parameter name="relpath" value="{baselink:SitemapBaseLink}"/>
+          </map:transform>
+          <map:serialize type="html5"/>
+        </map:match>
+        <!-- 
+          PDF
+        -->
+        <map:match pattern="departments/*.pdf"> 
+          <map:generate src="data/{global:model}"/> 
+          <map:transform src="xsl/fo/department_courses.xsl" label="xsl-fo">
+            <map:parameter name="querystring" value="{request:queryString}"/>
+            <map:parameter name="use-request-parameters" value="true"/>
+          </map:transform>
+          <map:serialize type="fo2pdf"/>
+        </map:match>
+        
+        
+        <!-- 
+          Courses 
+        -->
+        <!-- 
+          HTML
+        -->
+        <map:match pattern="courses/*.html">
+           <map:generate src="data/{global:model}"/>
+           <map:transform src="xsl/desktop/courses.xsl" type="xslt2">
+            <map:parameter name="url" value="{0}"/>
+             <map:parameter name="querystring" value="{request:queryString}"/>
+             <map:parameter name="relpath" value="{baselink:SitemapBaseLink}"/>
+           </map:transform>
+           <map:serialize type="html5"/>
+        </map:match>
+        <map:match pattern="mobile/courses/*.html">
+           <map:generate src="data/{global:model}"/>
+           <map:transform src="xsl/mobile/courses.xsl" type="xslt2">
+            <map:parameter name="url" value="{0}"/>
+             <map:parameter name="querystring" value="{request:queryString}"/>
+             <map:parameter name="relpath" value="{baselink:SitemapBaseLink}"/>
+           </map:transform>
+           <map:serialize type="html5"/>
+        </map:match>
+        <!-- 
+          PDF
+        -->
+        <map:match pattern="courses/*.pdf"> 
+          <map:generate src="data/{global:model}"/> 
+          <map:transform src="xsl/fo/department_course_single.xsl" label="xsl-fo">
+            <map:parameter name="querystring" value="{request:queryString}"/>
+            <map:parameter name="use-request-parameters" value="true"/>
+          </map:transform>
+          <map:serialize type="fo2pdf"/>
+        </map:match>
+        <map:match pattern="mobile/courses/*.pdf"> 
+          <map:generate src="data/{global:model}"/> 
+          <map:transform src="xsl/fo/department_course_single.xsl" label="xsl-fo">
+            <map:parameter name="querystring" value="{request:queryString}"/>
+            <map:parameter name="use-request-parameters" value="true"/>
+          </map:transform>
+          <map:serialize type="fo2pdf"/>
+        </map:match>
+
+        <!-- 
+          Groups
+        -->
+        <!-- 
+          HTML
+        -->
+        <map:match pattern="groups/*.html">
+           <map:generate src="data/{global:model}"/>
+           <map:transform src="xsl/desktop/group.xsl" type="xslt2">
+            <map:parameter name="url" value="{0}"/>
+             <map:parameter name="querystring" value="{request:queryString}"/>
+             <map:parameter name="relpath" value="{baselink:SitemapBaseLink}"/>
+           </map:transform>
+          <map:serialize type="html5"/>
+        </map:match>
+        <map:match pattern="mobile/groups/*.html">
+           <map:generate src="data/{global:model}"/>
+           <map:transform src="xsl/mobile/group.xsl" type="xslt2">
+            <map:parameter name="url" value="{0}"/>
+             <map:parameter name="querystring" value="{request:queryString}"/>
+             <map:parameter name="relpath" value="{baselink:SitemapBaseLink}"/>
+           </map:transform>
+          <map:serialize type="html5"/>
+        </map:match>
+
+        <!-- 
+          Search
+        -->
+        <!-- 
+          HTML
+        -->
+        <map:match pattern="search/*.html">
+           <map:generate src="data/{global:model}"/>
+           <map:transform src="xsl/desktop/search.xsl" type="xslt2">
+            <map:parameter name="url" value="{0}"/>
+             <map:parameter name="querystring" value="{request:queryString}"/>
+             <map:parameter name="relpath" value="{baselink:SitemapBaseLink}"/>
+           </map:transform>
+          <map:serialize type="html5"/>
+        </map:match>
+        <map:match pattern="mobile/search/*.html">
+           <map:generate src="data/{global:model}"/>
+           <map:transform src="xsl/mobile/search.xsl" type="xslt2">
+            <map:parameter name="url" value="{0}"/>
+             <map:parameter name="querystring" value="{request:queryString}"/>
+             <map:parameter name="relpath" value="{baselink:SitemapBaseLink}"/>
+           </map:transform>
+          <map:serialize type="html5"/>
+        </map:match>
+
+      <!-- 
+        API
+      -->
+       <map:match pattern="api/*.html">
+           <map:generate src="data/{global:model}"/>
+           <map:transform src="xsl/api/departments.xsl" type="xslt2">
+             <map:parameter name="querystring" value="{request:queryString}"/>
+           </map:transform>
+           <map:serialize type="text" mime-type="application/x-javascript"/>
+        </map:match>
+        <map:match pattern="mobile/api/*.html">
+           <map:generate src="data/{global:model}"/>
+           <map:transform src="xsl/api/departments.xsl" type="xslt2">
+             <map:parameter name="querystring" value="{request:queryString}"/>
+           </map:transform>
+           <map:serialize type="text" mime-type="application/x-javascript"/>
+        </map:match>
+
+
+       <!-- 
+        Project Documentation
+      -->
+       <map:match pattern="docs/*.html">
+           <map:generate src="data/{global:model}"/>
+           <map:transform src="xsl/desktop/report.xsl" type="xslt2">
+             <map:parameter name="querystring" value="{request:queryString}"/>
+             <map:parameter name="relpath" value="{baselink:SitemapBaseLink}"/>
+             <map:parameter name="url" value="{0}"/>
+           </map:transform>
+            <map:serialize type="html5"/>
+        </map:match>
+      </map:pipeline>
+  
+    <!-- 
+      These are generic match patterns that invoke readers, so that cocoon can serve 
+      'static' files. Pipeline devoted to static files that will be simply read: 
+      js, css, png, jpg, gif, etc.
+    --> 
+    <map:pipeline>
+      <map:match pattern="**.html">
+        <map:read src="{1}.html" mime-type="text/html" />
+      </map:match>
+      <map:match pattern="**.xml">
+        <map:read src="{1}.xml" mime-type="text/xml" />
+      </map:match>
+      <map:match pattern="**.xsl">
+        <map:read src="{1}.xsl" mime-type="text/xml" />
+      </map:match>
+      <map:match pattern="**.css">
+        <map:read src="{1}.css" mime-type="text/css" />
+      </map:match>
+      <map:match pattern="**.png">
+        <map:read src="{1}.png" mime-type="image/png" />
+      </map:match>
+      <map:match pattern="**.gif">
+        <map:read src="{1}.gif" mime-type="image/gif" />
+      </map:match>
+      <map:match pattern="**.jpg">
+        <map:read src="{1}.jpg" mime-type="image/jpeg" />
+      </map:match>
+       <map:match pattern="**.js">
+        <map:read src="{1}.js" mime-type="text/javascript" />
+      </map:match>
+    </map:pipeline>
+  </map:pipelines>
+</map:sitemap>

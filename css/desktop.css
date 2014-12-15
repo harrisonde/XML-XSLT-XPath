@@ -1,0 +1,182 @@
+/* CSS Rules */
+/*
+	Table of Contents
+	1. Structure
+	2. Persentation 
+	3. Typography
+	4. JavaScript
+	5. Media Queries
+
+*/
+
+/*
+	1. Structure
+*/
+
+.course-group li{
+	float: left;
+	padding:3px;
+	margin-right: 2px;
+	margin-left: 14px;;
+}
+.header ul{
+	list-style: none;
+}
+.breadcrumbs{
+	clear: both;
+	float: left;
+	width: 100%;
+}
+.breadcrumbs li{
+	float: left!important;
+	margin-right: 9px;
+}
+.course-search{
+	width: 161px;
+}
+.icon{
+	opacity: .5;
+	width: 23px;
+}
+.icon:hover{
+	opacity: .9;
+}
+.logo{
+	height: auto;
+	margin: 10px;
+	max-width: 26px;
+}
+.logo-text{
+	margin-top: 9px;
+}
+#footer .logo{
+	margin-top: 0;
+	max-width: 30px;
+}
+.search-pils{
+	margin-bottom: 21px;
+}
+.search-result-link{
+	display: block;
+	clear: both;
+	width: 100%;
+	padding: 5px;
+	margin: 1px;
+}
+.search-result-link:hover{
+	background-color: #f7f7f7;
+	text-decoration: none;
+}
+.select2-container{
+	width: 51%;
+}
+.select-two-js{	
+	margin-top: 29px;
+}
+.select-two-js > .select-two-js{
+	margin-bottom:13px;
+	margin-top:19px;
+}
+/*
+	2. Persentation 
+*/
+.bg-warning{
+	padding: 10px;
+}
+.course_nav{
+	padding: 1%;
+}
+.departments-list {
+	padding-top: 37px;
+}
+.departments-list ul, .course-options ul{
+	list-style: none;
+	padding-left: 0;
+	margin-right: 10px;
+}
+.departments-list .current, .course_nav .current{
+	color:#aa2525;
+}
+.icon-bar{
+	text-indent: -999px;
+}	
+.select2-results .select2-highlighted{
+	background: #F8F8F8;
+}
+/*
+	3. Typography
+*/
+.header ul{
+	font-size: 14px;
+}
+.select2-results .select2-highlighted{
+	color: #333;
+}
+.search-text{
+	font-size: 18px;
+	font-style: italic;
+}
+
+/* 
+	4. JavaScript
+*/
+
+.sticky-js
+{
+	background-color: #fff; 
+	-webkit-box-shadow: 0px 3px 19px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 3px 19px 0px rgba(0,0,0,0.75);
+box-shadow: 0px 3px 19px 0px rgba(0,0,0,0.75);
+	position: fixed;
+	top: 0;
+	z-index: 999;	
+}
+.sticky-js .sticky-close-js{
+	visibility: visible;
+}
+.sticky-close-js{
+	cursor: pointer;
+	padding-left: 35px;
+	padding-right: 10px;
+	visibility: hidden;
+
+}
+.sticky-close-js:hover{
+	opacity: .7;
+}
+@media (max-width: 768px) { 
+	.sticky-js
+	{
+		position: fixed;
+		width: 100%;
+		top: 0;
+		z-index: 999;
+		left: 0;
+		padding: 4%;
+	}
+}
+
+/*
+	5. Media queries
+*/
+/* Small devices (tablets, 768px and up) */
+@media (max-width: 768px) { 
+	.col-xs-3{
+		display: none;
+	}
+	.col-xs-9{
+		width: 100%;
+	}
+	.pdf-view{
+		display: none;
+	}
+	.select2-container{
+		width: 100%;	
+	}
+}	
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) { 
+
+}
+

@@ -1,0 +1,55 @@
+/* CSS Rules */
+/*
+	Table of Contents
+	1. Structure
+	2. Persentation 
+	3. Typography
+
+*/
+
+/*
+	1. Structure
+*/
+
+.header ul{
+	list-style: none;
+}
+.breadcrumbs{
+	clear: both;
+	float: left;
+	width: 100%;
+}
+.breadcrumbs li{
+	float: left!important;
+	margin-right: 9px;
+}
+.icon{
+	opacity: .5;
+	width: 23px;
+}
+.icon:hover{
+	opacity: .9;
+}
+.logo{
+	height: auto;
+	margin: 10px;
+	max-width: 26px;
+}
+.logo-text{
+	margin-top: 9px;
+}
+#footer .logo{
+	margin-top: 0;
+	max-width: 30px;
+}
+
+/*
+	2. Persentation 
+*/
+
+/*
+	3. Typography
+*/
+.header ul{
+	font-size: 18px;
+}
