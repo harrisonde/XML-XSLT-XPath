@@ -1,15 +1,12 @@
-#CSCI E-18 Final Project
-##### Harrison DeStefano 
+#XML Responsive desktop and mobile site
+#####XML, XSLT, XPath
 
 ###Overview
-My final project is a course catalog web site for the Harvard University Faculty of Arts and Sciences. The catalog is a full-fetrued HTML5 site driven from a flat XML file. To build the application I am using XML, XSLT, XPath  on the backend and jQuery and Bootstrap on the front-end. This project was a lot of fun to complete, I hope you enjoy it as much as I have.
+This is a past CSCI project that consists of a course catalog web site for the Harvard University Faculty of Arts and Sciences. The catalog is a full-featured HTML5 site driven from a flat XML file. To build the application I am using XML, XSLT, XPath  on the backend and jQuery and Bootstrap on the front-end. This project was a lot of fun to complete, I hope you enjoy it as much as I have.
 
-The catalog is construced as a responsive desktop and mobile site.
-	    	
 ###Structure
 #### Apache Cocoon
-
-I have opted to use Apache Cocoon to link components together. The Cocoon framework is used to build the pipeline and produce multiple output formats e.g., HTM5, fo2pdf, and text.  The Cocoon pipeline is defined by sitemap.xml file. The sitemap is configured to use query strings as a means to pass parameters between views. Said query strings are used to group or filter the couse data by department, meeting day, meeting time, and instructor. The general workflow for the pipeline is generate, transform, and serialize.
+I have opted to use Apache Cocoon to link components together. The Cocoon framework is used to build the pipeline and produce multiple output formats e.g., HTM5, fo2pdf, and text.  The Cocoon pipeline is defined by sitemap.xml file. The sitemap is configured to use query strings as a means to pass parameters between views. Said query strings are used to group or filter the course data by department, meeting day, meeting time, and instructor. The general workflow for the pipeline is generate, transform, and serialize.
 
 #### File Structure
 Harvard University Faculty of Arts and Sciences course data is located in a data folder. Font-end presentation elements and JavaScript specific to the project are located in the CSS, Images and JS folders. The vendors folder is a unique folder where front-end specific files are placed. At no point in time should any items in this folder be modified, unless updating a vendor package. The XSL folder contains all the stylesheets for preforming transformations. This folder is broken into four subfolders, API, Desktop, Fo, and Mobile. The API folder contains stylesheets for JSON transformations. The Desktop and Mobile folders house XSL for displaying desktop and mobile view of the course catalog. The Fo folder contains all the necessary information to transom XML into PDF format.
@@ -19,7 +16,7 @@ The course catalog is divided into three sections, courses, departments, and sea
 			
 The mobile version of the catalog is a simplified version of the desktop. On small devices the navigation links are hidden from view, until needed. When the sandwich button is tapped, the navigation is exposed. Navigation is exposed on tablet or medium devices.
 			
-The third section of the course catalog is Search, keyword and advanced. A keyword search is always present in the navigation. An advanced search is available from coruse > course search dropdown navigation. This search allows data to be filtered by day, department, instructor, keyword, and term, and time.
+The third section of the course catalog is Search, keyword and advanced. A keyword search is always present in the navigation. An advanced search is available from course > course search dropdown navigation. This search allows data to be filtered by day, department, instructor, keyword, and term, and time.
 
 I have also included a link to the written project report in said navigation.
 	    
@@ -81,10 +78,3 @@ This feature is a combination of HTML, CSS, and JavaScript. Please see /js/siteg
 
 #### Text Truncation
 In the case of breadcrumb navigation, long titles are annoying. Especially when the title wraps multiple lines increasing vertical page height. If a title is beyond that of an acceptable length, I trunk said title and add an ellipsis.
-			
-	    
-###Lessons Learned
-
-I feel I have a good start the search view and paginating the results, hoverer I feel I am missing the mark. The results need to contain more information about the course. Thus reducing the need to drill down for time, professor, or day of the week.  I would add an additional div containing the information, set said div to display:none. Along side the individual result, a “+” or “details” link would toggle the hidden div.
-
-This semester is my first experience working with XML, XSLT, and XPath. The course catalog as a whole is something to that I am very excited about. I am most proud of the department API to preform department searches. I wish I had stumbled upon this during the start of my final project as I would have developed that API further. Possibly using it to query for a decent amount of data within the mobile views.
